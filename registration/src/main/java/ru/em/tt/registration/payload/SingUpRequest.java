@@ -1,18 +1,21 @@
 package ru.em.tt.registration.payload;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import ru.em.tt.registration.annotations.PasswordMatchers;
 import ru.em.tt.registration.annotations.ValidEmail;
-
+@PasswordMatchers
 public class SingUpRequest {
 
-    @NotBlank(message = "Username is required")
+    @NotEmpty(message = "Username is required")
     private String username;
 
+
     @Email(message = "It shoud have email format")
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "User email is required")
     @ValidEmail
     private String email;
 
