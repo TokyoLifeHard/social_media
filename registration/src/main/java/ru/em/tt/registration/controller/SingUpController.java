@@ -1,11 +1,13 @@
 package ru.em.tt.registration.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.em.tt.registration.entity.User;
 import ru.em.tt.registration.payload.SingUpRequest;
@@ -18,7 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@RestController("api/v1/singup")
+@RestController
+@RequestMapping("api/v1/singup")
 public class SingUpController {
 
     private UserService userService;
@@ -30,7 +33,7 @@ public class SingUpController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> singUp(@RequestBody SingUpRequest singUpRequest, BindingResult bindingResult) {
+    public ResponseEntity<Object> singUp(@Valid  @RequestBody SingUpRequest singUpRequest, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -45,7 +48,7 @@ public class SingUpController {
         User user = new User();
         user.setUsername(singUpRequest.getUsername());
         user.setEmail(singUpRequest.getEmail());
-        user.setPassword(user.getPassword());
+        user.setPassword(singUpRequest.getPassword());
 
         this.userService.saveUser(user);
 
